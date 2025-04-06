@@ -19,12 +19,13 @@ def convert_pdf_to_text(pdf_path, text_path):
         
         # Debugging: Inspect the structure of the page content
         page_dict = page.get_text("dict")
-        print(f"Page {page_num + 1} content dictionary:\n{page_dict}\n{'-'*40}")
+        # print(f"Page {page_num + 1} content dictionary:\n{page_dict}\n{'-'*40}")
         
         # Extract text from the "blocks" key in the dictionary
         blocks = page_dict.get("blocks", [])
         text = ""
         for block in blocks:
+          print('processing block')
           if block["type"] == 0 and "lines" in block:  # Text block
             text += "\n".join(line["spans"][0]["text"] for line in block["lines"])
           elif block["type"] == 1 and "image" in block:  # Image block
@@ -35,7 +36,7 @@ def convert_pdf_to_text(pdf_path, text_path):
             text += ocr_text
 
         # Debugging: Print extracted text for each page
-        print(f"Page {page_num + 1} extracted text:\n{text}\n{'-'*40}")
+        # print(f"Page {page_num + 1} extracted text:\n{text}\n{'-'*40}")
 
         # Basic page number removal (customize as needed)
         lines = text.splitlines()
@@ -50,8 +51,8 @@ def convert_pdf_to_text(pdf_path, text_path):
     print(f"An error occurred: {e}")
 
 # Example usage:
-pdf_file = "test-book.pdf"
-text_file = "test-book.txt"
+pdf_file = "book.pdf"
+text_file = "output.txt"
 convert_pdf_to_text(pdf_file, text_file)
 
 
