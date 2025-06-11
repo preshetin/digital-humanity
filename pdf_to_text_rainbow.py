@@ -30,6 +30,12 @@ def convert_pdf_to_text(pdf_path, text_path):
                 line_text = " ".join(span["text"] for span in line["spans"])
                 text += line_text + "\n"
         
+        # Remove first line if it's a number
+        lines = text.splitlines()
+        if lines and lines[0].strip().isdigit():
+            lines = lines[1:]
+        text = "\n".join(lines)
+        
         # remove extra spaces and newlines
         # text = " ".join(text.split())
 
@@ -46,7 +52,8 @@ def convert_pdf_to_text(pdf_path, text_path):
                 cleaned_lines.append(line.strip())
         text = "\n".join(cleaned_lines) 
       
-        
+       #write text to file named text_file
+        text_file.write(text + "\n") 
 
         # Debugging: Print extracted text for each page
         print(f"Page {page_num + 1} extracted text:\n{text}\n{'-'*40}")
@@ -58,8 +65,9 @@ def convert_pdf_to_text(pdf_path, text_path):
     print(f"An error occurred: {e}")
 
 # Example usage:
-pdf_file = "rainbow-sample.pdf"
-text_file = "output-rainbow-sample.txt"
+# pdf_file = "Rainbow_novel_only.pdf"
+pdf_file = "Rainbow_sample_2.pdf"
+text_file = "Rainbow_novel_only.txt"
 convert_pdf_to_text(pdf_file, text_file)
 
 
